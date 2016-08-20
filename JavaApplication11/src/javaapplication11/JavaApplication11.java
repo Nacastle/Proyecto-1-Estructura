@@ -43,7 +43,7 @@ public class JavaApplication11 {
             nota = 0;
             if (op == 1) {
                 entero = aleatorio.nextInt(ListaEstudiantes.size());//.fin
-                System.out.println(ListaEstudiantes.get(entero).toString());//get(Recuperar)
+                System.out.println(ListaEstudiantes.get(entero).cuenta);//get(Recuperar)
                 System.out.println("Ingrese la nota: ");
                 nota = rd.nextInt();
                 ListaEstudiantes.get(entero).notas.add(nota);
