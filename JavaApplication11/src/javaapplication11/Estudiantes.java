@@ -13,7 +13,8 @@ import java.util.ArrayList;
  */
 public class Estudiantes {
     public String cuenta;
-    public ArrayList<Integer> notas = new ArrayList<>();//Lista<Integer>
+    public Lista<Integer> notas = new Lista();
+    //public ArrayList<Integer> notas = new ArrayList<>();//Lista<Integer>
     public int promedio;
 
     public Estudiantes() {
@@ -25,10 +26,10 @@ public class Estudiantes {
 
     public void Cpromedio(){
         int suma = 0;
-        for (int i = 0; i < notas.size(); i++) {
-            suma = suma + notas.get(i);
+        for (int i = 1; i < notas.fin(); i++) {
+            suma = suma + notas.recuperar(i);
         }
-        promedio = suma/notas.size();
+        promedio = suma/(notas.fin()-1);
     }
 
 }

@@ -13,63 +13,66 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.csvreader.CsvWriter;
 import java.io.FileWriter;
+
 /**
  *
  * @author Alexis
  */
 public class JavaApplication11 {
 
-    public static ArrayList<Estudiantes> ListaEstudiantes = new ArrayList<>();
+    public static Lista<Estudiantes> ListaEstudiantes = new Lista();
     
     public static void main(String[] args) throws IOException {
         Random aleatorio = new Random();
-        //String hola = "Luis Fernando Salazar Fuentes,10011512,I-1";
-        //obtenerCuenta(hola);
-        //System.out.println("");
         muestraContenido("./prueba2.txt");
         Scanner rd = new Scanner(System.in);
         int op = 0;
         int nota;
         int entero;
-        do {        
+        do {
             System.out.println("Bienvenido");
             System.out.println("Selecione una opcion:\n1. Ingresar una nota\n2. Salir");
             op = rd.nextInt();
             nota = 0;
             if (op == 1) {
-                entero = aleatorio.nextInt(ListaEstudiantes.size());//.fin
-                System.out.println(ListaEstudiantes.get(entero).cuenta);//get(Recuperar)
+                entero = aleatorio.nextInt(ListaEstudiantes.fin());//.fin
+                if (entero == ListaEstudiantes.fin()) {
+                    entero = ListaEstudiantes.fin()-1;
+                }
+                if (entero == 0) {
+                    entero++;
+                }
+                System.out.println(ListaEstudiantes.recuperar(entero).cuenta/*.get(entero).cuenta*/);//get(Recuperar)
                 System.out.println("Ingrese la nota: ");
                 nota = rd.nextInt();
-                ListaEstudiantes.get(entero).notas.add(nota);
+                ListaEstudiantes.recuperar(entero).notas.insertar(nota, ListaEstudiantes.recuperar(entero).notas.fin());
+                //ListaEstudiantes.get(entero).notas.add(nota);
             }
         } while (op == 1);
-        for (int i = 0; i < ListaEstudiantes.size(); i++) {
-            ListaEstudiantes.get(i).Cpromedio();
+        for (int i = 1; i < ListaEstudiantes.fin(); i++) {
+            ListaEstudiantes.recuperar(i).Cpromedio();/*.get(i).Cpromedio();*/
         }
         String outputFile = "./ArchivoNotas.csv";
         boolean existe = new File(outputFile).exists();
-        
+
         if (existe) {
             File ArchivoNotas = new File(outputFile);
             ArchivoNotas.delete();
         }
-        
+
         try {
             CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, true), ',');
-            
+
             csvOutput.write("Cuenta");
             csvOutput.write("Promedio");
             csvOutput.endRecord();
-            
-            for (int i = 0; i < ListaEstudiantes.size(); i++) {
-                csvOutput.write(ListaEstudiantes.get(i).cuenta);
-                csvOutput.write(Integer.toString(ListaEstudiantes.get(i).promedio));
+
+            for (int i = 1; i < ListaEstudiantes.fin()/*.size()*/; i++) {
+                csvOutput.write(ListaEstudiantes.recuperar(i).cuenta/*.get(i).cuenta*/);
+                csvOutput.write(Integer.toString(ListaEstudiantes.recuperar(i).promedio/*.get(i).promedio*/));
                 csvOutput.endRecord();
             }
             csvOutput.close();
@@ -99,7 +102,8 @@ public class JavaApplication11 {
             //System.out.println(cadena);
             persona = new Estudiantes(obtenerCuenta(cadena));
             //obtenerCuenta(cadena);
-            ListaEstudiantes.add(persona);
+            ListaEstudiantes.insertar(persona, ListaEstudiantes.fin());
+            //ListaEstudiantes.add(persona);
         }
         b.close();
     }
